@@ -1,0 +1,20 @@
+{
+    #foreach( $token in $input.path('$').split('&') )
+        #set( $keyVal = $token.split('=') )
+        #set( $keyValSize = $keyVal.size() )
+        #if( $keyValSize >= 1 )
+            #set( $key = $util.urlDecode($keyVal[0]) )
+            #if( $keyValSize >= 2 )
+                #set( $val = $util.urlDecode($keyVal[1]) )
+            #else
+                #set( $val = '' )
+            #end
+            #set ($firstChar= $val.substring(0, 1))
+            #if( ($firstChar == "{") || ($firstChar == "[") )
+                "$key": $val#if($foreach.hasNext),#end
+            #else
+                "$key": "$val"#if($foreach.hasNext),#end
+            #end
+        #end
+    #end
+}
