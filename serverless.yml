@@ -11,7 +11,7 @@
 #
 # Happy Coding!
 
-service: slackTest02 # NOTE: update this with your service name
+service: Slack-ProdRelease # NOTE: update this with your service name
 
 # You can pin your service to only deploy with a specific Serverless version
 # Check out our docs for more details
@@ -21,7 +21,10 @@ provider:
   name: aws
   runtime: nodejs8.10
   profile: tcprod
-  apiName: Slack_ProdRelease_API
+  apiName: Slack-ProdRelease
+  stackTags:
+    APPLICATION_NAME: "Slack-ProdRelease"
+    STAGE: "${self:provider.stage}"
 
 # you can overwrite defaults here
 #  stage: dev
@@ -57,13 +60,29 @@ provider:
 #    - exclude-me-dir/**
 
 functions:
-  Slack_ProdRelease_Handler:
-    handler: handler.handler
-    name: Slack_ProdRelease_Handler
+  Slack-ProdRelease_formRequest:
+    handler: formRequest.handler
+    name: ProdRelease_formRequest
     events:
       - http:
           method: POST
-          path: /
+          path: formRequest
+          integration: lambda
+          request:
+            template:
+              application/x-www-form-urlencoded: ${file(requestTemplate-application_x-www-form-urlencoded.vtl)}
+          response:
+            template: ${file(responseTemplate-application_json.vtl)}
+    environment:
+      SLACK_API_KEY: ${ssm:prodRelease-Slack-API-Key}
+
+  Slack-ProdRelease_formProcess:
+    handler: formProcess.handler
+    name: ProdRelease_formProcess
+    events:
+      - http:
+          method: POST
+          path: formProcess
           integration: lambda
           request:
             template:

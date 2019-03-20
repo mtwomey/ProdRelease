@@ -1,0 +1,52 @@
+{
+  "trigger_id": "",
+  "dialog": {
+    "callback_id": "ProdReleaseForm",
+    "title": "Schedule Prod Release",
+    "submit_label": "Request",
+    "notify_on_cancel": false,
+    "state": "Request",
+    "elements": [
+      {
+        "type": "text",
+        "label": "Title",
+        "name": "title"
+      },
+      {
+        "type": "text",
+        "label": "Service & Impact Area",
+        "name": "service"
+      },
+      {
+        "type": "text",
+        "label": "Expected Outcome",
+        "name": "outcome"
+      },
+      {
+        "type": "textarea",
+        "label": "Work plan",
+        "name": "plan"
+      },
+      {
+        "type": "text",
+        "label": "Team",
+        "name": "team"
+      },
+      {
+        "type": "text",
+        "label": "Date and Timing",
+        "name": "timing"
+      },
+      {
+        "type": "text",
+        "label": "Testing (what will be tested)",
+        "name": "testing"
+      },
+      {
+        "type": "textarea",
+        "label": "Rollback Plan",
+        "name": "rollback"
+      }
+    ]
+  }
+}
