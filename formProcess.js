@@ -8,24 +8,16 @@ let prodReleaseFormResponse;
 exports.handler = function (event, context) {
     console.log(`Received: ${JSON.stringify(event)}`);
 
-    prodReleaseFormResponse = fs.readFileSync('prodReleaseFormResponse.json').toString();
+    let prodReleaseFormResponse = fs.readFileSync('prodReleaseFormResponse.json').toString();
 
 	const data = event.payload.submission;
+    data.submitter = event.payload.user.name;
 
-    updateText('title', data.title);
-    updateText('service', data.service);
-    updateText('outcome', data.outcome);
-    updateText('plan', data.plan);
-    updateText('team', data.team);
-    updateText('timing', data.timing);
-    updateText('testing', data.testing);
-    updateText('rollback', data.rollback);
+    Object.keys(data).forEach(item => {
+        prodReleaseFormResponse = prodReleaseFormResponse.replace('${' + item + '}', data[item]);
+    });
 
     util.postHTTPS(event.payload.response_url, JSON.parse(prodReleaseFormResponse)).then(res => {
         context.succeed();
     });
 };
-
-function updateText(blockId, text) {
-	prodReleaseFormResponse = prodReleaseFormResponse.replace('${' + blockId + '}', text);
-}

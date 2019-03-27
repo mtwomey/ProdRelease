@@ -8,7 +8,7 @@
 			"type": "section",
 			"text": {
 				"type": "mrkdwn",
-				"text": "*Title:* ${title}"
+				"text": "*Title:* ${title} (${submitter})"
 			}
 		},
 		{
